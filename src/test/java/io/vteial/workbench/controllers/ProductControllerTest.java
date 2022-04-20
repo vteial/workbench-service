@@ -3,6 +3,7 @@ package io.vteial.workbench.controllers;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import io.vteial.workbench.models.Product;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -18,8 +19,9 @@ public class ProductControllerTest {
     String pathPrefix = "/api/products";
 
     @Test
-    void initList() {
-        List<Product> persons = given()
+    @Order(1)
+    void testList() {
+        List<Product> items = given()
                 .when()
                 .get(pathPrefix)
                 .then()
@@ -27,11 +29,12 @@ public class ProductControllerTest {
                 .extract()
                 .body()
                 .jsonPath().getList(".", Product.class);
-        assertEquals(persons.size(), 0);
+        assertEquals(0, items.size());
     }
-
+/*
     @Test
-    void addOne() {
+    @Order(2)
+    void testAdd() {
         Product item = Product.builder()
                 .code("inr")
                 .name("Indian Rupee")
@@ -42,7 +45,7 @@ public class ProductControllerTest {
                 .body(item)
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/persons")
+                .post(pathPrefix)
                 .then()
                 .statusCode(201)
                 .extract()
@@ -50,18 +53,56 @@ public class ProductControllerTest {
         assertNotNull(item);
         assertNotNull(item.getId());
     }
-
     @Test
-    void findById() {
+    @Order(3)
+    void testFindById() {
         Product item = given()
                 .pathParam("id", 1)
                 .when()
                 .get(pathPrefix + "/{id}")
                 .then()
-                .statusCode(204)
+                .statusCode(200)
                 .extract()
                 .body().as(Product.class);
         assertNotNull(item);
         assertEquals(item.getId(), 1L);
     }
+
+    @Test
+    @Order(4)
+    void testSet() {
+        Product eitem = Product.builder()
+                .id(1L)
+                .code("inr")
+                .name("Indian RupeeX")
+                .unit(1)
+                .rate(1)
+                .build();
+        Product aitem = given()
+                .body(eitem)
+                .pathParam("id", eitem.getId())
+                .when()
+                .put(pathPrefix + "/{id}")
+                .then()
+                .statusCode(204)
+                .extract()
+                .body().as(Product.class);
+        assertNotNull(aitem);
+        assertEquals(aitem.getCode(), eitem.getCode());
+        assertEquals(aitem.getName(), eitem.getName());
+        assertEquals(aitem.getUnit(), eitem.getUnit());
+        assertEquals(aitem.getRate(), eitem.getRate());
+    }
+
+    @Test
+    @Order(5)
+    void testRemove() {
+        given()
+            .pathParam("id", 1)
+            .when()
+            .delete(pathPrefix + "/{id}")
+            .then()
+            .statusCode(204);
+    }
+*/
 }

@@ -1,6 +1,7 @@
 package io.vteial.workbench.controllers;
 
 import io.quarkus.test.junit.QuarkusTest;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -9,6 +10,9 @@ import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
 public class DefaultControllerTest {
+
+    @ConfigProperty(name = "app.name")
+    private String appName = "-";
 
     @Test
     public void ping() {
@@ -27,6 +31,6 @@ public class DefaultControllerTest {
                 .get("/index")
                 .then()
                 .statusCode(200)
-                .body(containsString("SalesTap"));
+                .body(containsString(appName));
     }
 }

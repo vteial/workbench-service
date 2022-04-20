@@ -54,7 +54,7 @@ public class ProductController {
     @PUT
     @Path("{id}")
     @Transactional
-    public Product set(@PathParam("id") Long id, Product item) {
+    public Response set(@PathParam("id") Long id, Product item) {
         Product eitem = productRepository.findById(id);
         if( eitem == null) {
             throw new WebApplicationException("Product with id of " + id + " does not exists", 404);
@@ -65,7 +65,7 @@ public class ProductController {
         eitem.setDesc(item.getDesc());
         eitem.setUnit(item.getUnit());
         eitem.setRate(item.getRate());
-        return eitem;
+        return Response.ok(eitem).status(204).build();
     }
 
     @DELETE
