@@ -2,12 +2,16 @@ package io.vteial.workbench.controllers;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import io.quarkus.security.Authenticated;
+import io.vteial.workbench.models.Message;
 import lombok.extern.slf4j.Slf4j;
 
 import io.quarkus.panache.common.Sort;
@@ -26,6 +30,7 @@ public class ProductController {
     ProductRepository productRepository;
 
     @GET
+    @Authenticated
     public List<Product> list() {
         log.debug("Product Count : {}", productRepository.count());
         return productRepository.listAll(Sort.by("name"));
@@ -33,6 +38,7 @@ public class ProductController {
 
     @POST
     @Transactional
+    @RolesAllowed("wb-manager")
     public Response add(Product item) {
         if (item.getId() != null) {
             throw new WebApplicationException("Id should not set on request.", 422);
@@ -43,6 +49,7 @@ public class ProductController {
 
     @GET
     @Path("{id}")
+    @Authenticated
     public Product findById(@PathParam("id") Long id) {
         Product item = productRepository.findById(id);
         if( item == null) {
@@ -54,6 +61,7 @@ public class ProductController {
     @PUT
     @Path("{id}")
     @Transactional
+    @RolesAllowed("wb-manager")
     public Response set(@PathParam("id") Long id, Product item) {
         Product eitem = productRepository.findById(id);
         if( eitem == null) {
@@ -70,6 +78,7 @@ public class ProductController {
 
     @DELETE
     @Path("{id}")
+    @RolesAllowed("wb-manager")
     @Transactional
     public Response remove(@PathParam("id") Long id) {
         Product eitem = productRepository.findById(id);

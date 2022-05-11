@@ -1,0 +1,3 @@
+05/11
+Multiple roles in RolesAllowed annotation - Open
+How to add bearer token in swagger-ui -Open
