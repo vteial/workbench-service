@@ -1,8 +1,9 @@
 package io.vteial.workbench.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 @Entity
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Product {
 
@@ -29,6 +31,4 @@ public class Product {
     long unit;
 
     float rate;
-
-     public Product() {}
 }

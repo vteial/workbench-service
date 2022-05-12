@@ -1,44 +1,39 @@
 package io.vteial.workbench.controllers;
 
-import java.util.List;
+import io.quarkus.panache.common.Sort;
+import io.quarkus.security.Authenticated;
+import io.vteial.workbench.data.ProductRepository;
+import io.vteial.workbench.models.Product;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
-import io.quarkus.security.Authenticated;
-import io.vteial.workbench.models.Message;
-import lombok.extern.slf4j.Slf4j;
-
-import io.quarkus.panache.common.Sort;
-import io.vteial.workbench.data.ProductRepository;
-
-import io.vteial.workbench.models.Product;
-
-@Slf4j
+@Authenticated
 @Path("api/products")
 @Produces("application/json")
 @Consumes("application/json")
 @ApplicationScoped
+@Slf4j
 public class ProductController {
 
     @Inject
     ProductRepository productRepository;
 
     @GET
-    @Authenticated
     public List<Product> list() {
         log.debug("Product Count : {}", productRepository.count());
         return productRepository.listAll(Sort.by("name"));
     }
 
+    @RolesAllowed("wb-manager")
     @POST
     @Transactional
-    @RolesAllowed("wb-manager")
     public Response add(Product item) {
         if (item.getId() != null) {
             throw new WebApplicationException("Id should not set on request.", 422);
@@ -49,22 +44,21 @@ public class ProductController {
 
     @GET
     @Path("{id}")
-    @Authenticated
     public Product findById(@PathParam("id") Long id) {
         Product item = productRepository.findById(id);
-        if( item == null) {
+        if (item == null) {
             throw new WebApplicationException("Product with id of " + id + " does not exists", 404);
         }
         return item;
     }
 
+    @RolesAllowed("wb-manager")
     @PUT
     @Path("{id}")
     @Transactional
-    @RolesAllowed("wb-manager")
     public Response set(@PathParam("id") Long id, Product item) {
         Product eitem = productRepository.findById(id);
-        if( eitem == null) {
+        if (eitem == null) {
             throw new WebApplicationException("Product with id of " + id + " does not exists", 404);
         }
         eitem.setCode(item.getCode());
@@ -76,13 +70,13 @@ public class ProductController {
         return Response.ok(eitem).status(204).build();
     }
 
+    @RolesAllowed("wb-manager")
     @DELETE
     @Path("{id}")
-    @RolesAllowed("wb-manager")
     @Transactional
     public Response remove(@PathParam("id") Long id) {
         Product eitem = productRepository.findById(id);
-        if( eitem == null) {
+        if (eitem == null) {
             throw new WebApplicationException("Product with id of " + id + " does not exists", 404);
         }
         productRepository.delete(eitem);
