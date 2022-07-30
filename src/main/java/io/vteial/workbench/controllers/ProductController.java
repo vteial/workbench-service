@@ -2,8 +2,8 @@ package io.vteial.workbench.controllers;
 
 import io.quarkus.panache.common.Sort;
 import io.quarkus.security.Authenticated;
-import io.vteial.workbench.data.ProductRepository;
 import io.vteial.workbench.models.Product;
+import io.vteial.workbench.repos.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.security.RolesAllowed;
@@ -14,7 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Authenticated
+//@Authenticated
 @Path("api/products")
 @Produces("application/json")
 @Consumes("application/json")
@@ -31,7 +31,7 @@ public class ProductController {
         return productRepository.listAll(Sort.by("name"));
     }
 
-    @RolesAllowed("wb-manager")
+    //@RolesAllowed("wb-manager")
     @POST
     @Transactional
     public Response add(Product item) {
@@ -52,7 +52,7 @@ public class ProductController {
         return item;
     }
 
-    @RolesAllowed("wb-manager")
+    //@RolesAllowed("wb-manager")
     @PUT
     @Path("{id}")
     @Transactional
@@ -70,7 +70,7 @@ public class ProductController {
         return Response.ok(eitem).status(204).build();
     }
 
-    @RolesAllowed("wb-manager")
+   // @RolesAllowed("wb-manager")
     @DELETE
     @Path("{id}")
     @Transactional

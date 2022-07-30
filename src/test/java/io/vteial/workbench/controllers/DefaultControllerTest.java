@@ -12,7 +12,16 @@ import static org.hamcrest.CoreMatchers.is;
 public class DefaultControllerTest {
 
     @ConfigProperty(name = "app.name")
-    private String appName = "-";
+    String appName;
+
+    @Test
+    public void index() {
+        given()
+                .when()
+                .get("/index")
+                .then()
+                .statusCode(200);
+    }
 
     @Test
     public void ping() {
@@ -21,16 +30,15 @@ public class DefaultControllerTest {
                 .get("/ping")
                 .then()
                 .statusCode(200)
-                .body(is("Ping Pong!!!"));
+                .body(is("Ping Pong"));
     }
 
     @Test
-    public void index() {
+    public void testAppInfo() {
         given()
                 .when()
-                .get("/index")
+                .get("/app-info")
                 .then()
-                .statusCode(200)
-                .body(containsString(appName));
+                .statusCode(200);
     }
 }

@@ -1,0 +1,66 @@
+app:
+  id: workbench-service
+  name: Workbench Service
+
+quarkus:
+  log:
+    category:
+      "com.blocktrust":
+        level: INFO
+    console:
+      enable: false
+    file:
+      enable: true
+      #      level: DEBUG
+      path: /tmp/${app.id}.log
+    handler:
+      gelf:
+        enabled: false
+        host: localhost
+        port: 12201
+  #     port: 5000
+
+  oidc:
+    enabled: false
+    auth-server-url: https://dev-client-iam.onblocktrust.com/realms/blocktrust-dev
+    client-id: ${app.id}-dev
+    credentials:
+      secret: VP5K49xBj8LxQMwr69Uu93ruNGhbP6if
+    token:
+      issuer: ${quarkus.oidc.auth-server-url}
+    tls:
+      verification: none
+    application-type: service
+    tenant-enabled: true
+    webapp-tenant:
+      auth-server-url: ${quarkus.oidc.auth-server-url}
+      client-id: ${quarkus.oidc.client-id}
+      application-type: service
+      roles:
+        source: accesstoken
+
+  datasource:
+    db-kind: h2
+    username: sa
+    password:
+    jdbc:
+      url: jdbc:h2:tcp://localhost/~/app-home/workbench-service/db/h2-dev;AUTO_SERVER=true;DB_CLOSE_DELAY=-1
+      max-size: 10
+
+  hibernate-orm:
+    database:
+# https://quarkus.io/guides/hibernate-orm#quarkus-hibernate-orm_quarkus.hibernate-orm.scripts-database-scripts-related-configuration
+# allowed values: none / create / drop-and-create / drop / update / validate
+     generation: update
+
+  swagger-ui:
+    theme: original
+  #    always-include: true
+
+  smallrye-openapi:
+    info-title: ${app.name} API
+    info-version: 0.0.1
+
+hibernate:
+  validator:
+    allow_parameter_constraint_override: true

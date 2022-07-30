@@ -1,4 +1,4 @@
-package io.vteial.workbench.data;
+package io.vteial.workbench.repos;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.vteial.workbench.models.Product;

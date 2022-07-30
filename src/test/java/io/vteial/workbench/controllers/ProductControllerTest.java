@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class ProductControllerTest {
 
     String pathPrefix = "/api/products";
-
     @Test
     @Order(1)
     void testList() {
@@ -31,7 +30,7 @@ public class ProductControllerTest {
                 .jsonPath().getList(".", Product.class);
         assertEquals(0, items.size());
     }
-/*
+
     @Test
     @Order(2)
     void testAdd() {
@@ -104,5 +103,5 @@ public class ProductControllerTest {
             .then()
             .statusCode(204);
     }
-*/
+
 }
