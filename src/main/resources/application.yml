@@ -21,11 +21,11 @@ quarkus:
   #     port: 5000
 
   oidc:
-    enabled: false
-    auth-server-url: https://dev-client-iam.onblocktrust.com/realms/blocktrust-dev
-    client-id: ${app.id}-dev
+    enabled: true
+    auth-server-url: "https://lemur-12.cloud-iam.com/auth/realms/wybis"
+    client-id: ${app.id}
     credentials:
-      secret: VP5K49xBj8LxQMwr69Uu93ruNGhbP6if
+      secret: mKPva5oaVmDJuWBsvndSomvKP7aQHLOf
     token:
       issuer: ${quarkus.oidc.auth-server-url}
     tls:

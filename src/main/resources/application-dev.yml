@@ -11,11 +11,6 @@ quarkus:
   live-reload:
     instrumentation: true
 
-  oidc:
-    client-id: ${app.id}-loc
-    credentials:
-      secret: erCZW7MwD31FxmJSlg0ln6ZXdvIupkOc
-
   datasource:
     jdbc:
       url: jdbc:h2:tcp://localhost/~/app-home/workbench-service/db/h2-dev;AUTO_SERVER=true;DB_CLOSE_DELAY=-1

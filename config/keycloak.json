@@ -1,12 +1,10 @@
 {
-  "realm": "workbench",
-  "auth-server-url": "http://localhost:9999/auth/",
+  "realm": "wybis",
+  "auth-server-url": "https://lemur-12.cloud-iam.com/auth/",
   "ssl-required": "external",
   "resource": "workbench-service",
-  "verify-token-audience": true,
   "credentials": {
-    "secret": "qTrW4WO9YwBf6KAeAE1zppsyMUTTe049"
+    "secret": "mKPva5oaVmDJuWBsvndSomvKP7aQHLOf"
   },
-  "use-resource-role-mappings": true,
   "confidential-port": 0
 }
