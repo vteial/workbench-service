@@ -1,50 +1,28 @@
 package io.vteial.workbench.controllers;
 
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.callback.QuarkusTestBeforeEachCallback;
-import io.quarkus.test.junit.callback.QuarkusTestMethodContext;
+import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 import io.vteial.workbench.models.Product;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
-import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-// @QuarkusTestResource(OidcWiremockTestResource.class)
-// @QuarkusTestResource(KeycloakTestResourceLifecycleManager.class)
 @QuarkusTest
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ProductControllerTest implements QuarkusTestBeforeEachCallback {
+public class ProductControllerTest {
 
     String pathPrefix = "/api/products";
 
-//    KeycloakTestClient keycloakClient = new KeycloakTestClient();
-//
-//    protected String getAccessToken(String userName) {
-//        return keycloakClient.getAccessToken(userName);
-//    }
-//
-
-    @Override
-    public void beforeEach(QuarkusTestMethodContext context) {
-        System.out.println("Executing " + context.getTestMethod());
-        Annotation[] annotations = context.getTestInstance().getClass().getAnnotations();
-        Arrays.stream(annotations).forEach(System.out::println);
-    }
-
+    @TestSecurity(user = "userOidc", roles = "viewer")
     @Test
     @Order(1)
     void testList() {
         List<Product> items = given()
-//                .auth().oauth2(getAccessToken("alice"))
                 .when()
                 .get(pathPrefix)
                 .then()
@@ -55,6 +33,7 @@ public class ProductControllerTest implements QuarkusTestBeforeEachCallback {
         assertEquals(0, items.size());
     }
 
+    @TestSecurity(user = "userOidc", roles = "viewer")
     @Test
     @Order(2)
     void testFindByIdForNotFound() {
@@ -66,6 +45,7 @@ public class ProductControllerTest implements QuarkusTestBeforeEachCallback {
                 .statusCode(404);
     }
 
+    @TestSecurity(user = "userOidc", roles = "viewer")
     @Test
     @Order(3)
     void testAdd() {
@@ -88,6 +68,7 @@ public class ProductControllerTest implements QuarkusTestBeforeEachCallback {
         assertNotNull(item.getId());
     }
 
+    @TestSecurity(user = "userOidc", roles = "viewer")
     @Test
     @Order(4)
     void testFindById() {
@@ -103,6 +84,7 @@ public class ProductControllerTest implements QuarkusTestBeforeEachCallback {
         assertEquals(item.getId(), 1L);
     }
 
+    @TestSecurity(user = "userOidc", roles = "viewer")
     @Test
     @Order(5)
     void testUpdateForNotFound() {
@@ -123,6 +105,7 @@ public class ProductControllerTest implements QuarkusTestBeforeEachCallback {
                 .statusCode(404);
     }
 
+    @TestSecurity(user = "userOidc", roles = "viewer")
     @Test
     @Order(6)
     void testUpdate() {
@@ -150,6 +133,7 @@ public class ProductControllerTest implements QuarkusTestBeforeEachCallback {
         assertEquals(aitem.getRate(), eitem.getRate());
     }
 
+    @TestSecurity(user = "userOidc", roles = "viewer")
     @Test
     @Order(7)
     void testRemove() {
@@ -161,6 +145,7 @@ public class ProductControllerTest implements QuarkusTestBeforeEachCallback {
                 .statusCode(204);
     }
 
+    @TestSecurity(user = "userOidc", roles = "viewer")
     @Test
     @Order(8)
     void testRemoveForNotFound() {

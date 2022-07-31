@@ -50,32 +50,4 @@ public class DefaultController {
         );
     }
 
-//    @GET
-//    @Path("current-session")
-//    @Produces("application/json")
-//    public Map<String, Object> currentSession(@Context SecurityContext securityContext) {
-//        Principal user = securityContext.getUserPrincipal();
-//        return Map.of("userName", user != null ? user.getName() : "<not logged in>");
-//    }
-
-//    @Inject
-//    @IdToken
-//    JsonWebToken idToken;
-//
-//    @Inject
-//    JsonWebToken accessToken;
-//
-//    @Inject
-//    RefreshToken refreshToken;
-//
-//    @GET
-//    @Path("tokens")
-//    @Produces("application/json")
-//    public Map<String, Object> tokens() {
-//        return Map.of(
-//                "userName", idToken.getClaim("preferred_username"),
-//                "userScopes", accessToken.getClaim("scope"),
-//                "refreshToken", refreshToken.getToken());
-//    }
-
 }

@@ -1,8 +1,8 @@
 
 quarkus:
 #  oidc:
-#    auth-server-url: ${keycloak.url}/realms/quarkus/
-#    client-id: quarkus-service-app
+#    auth-server-url: http://localhost:8180/realms/quarkus/
+#    client-id: ${app.id}
 #    credentials: secret
 #    application-type: service
 

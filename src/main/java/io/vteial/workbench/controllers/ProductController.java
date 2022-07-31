@@ -14,7 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-//@Authenticated
+@Authenticated
 @Path("api/products")
 @Produces("application/json")
 @Consumes("application/json")

@@ -37,7 +37,8 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
     testImplementation 'io.quarkus:quarkus-jacoco'
 //    testImplementation 'io.quarkus:quarkus-test-oidc-server'
-    testImplementation 'io.quarkus:quarkus-test-keycloak-server'
+//    testImplementation 'io.quarkus:quarkus-test-keycloak-server'
+    testImplementation("io.quarkus:quarkus-test-security-oidc")
 }
 
 group 'io.vteial.workbench-service'
