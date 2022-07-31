@@ -14,7 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Authenticated
+//@Authenticated
 @Path("api/products")
 @Produces("application/json")
 @Consumes("application/json")
@@ -35,9 +35,6 @@ public class ProductController {
     @POST
     @Transactional
     public Response add(Product item) {
-        if (item.getId() != null) {
-            throw new WebApplicationException("Id should not set on request.", 422);
-        }
         productRepository.persist(item);
         return Response.ok(item).status(201).build();
     }
@@ -56,7 +53,7 @@ public class ProductController {
     @PUT
     @Path("{id}")
     @Transactional
-    public Response set(@PathParam("id") Long id, Product item) {
+    public Product update(@PathParam("id") Long id, Product item) {
         Product eitem = productRepository.findById(id);
         if (eitem == null) {
             throw new WebApplicationException("Product with id of " + id + " does not exists", 404);
@@ -67,7 +64,7 @@ public class ProductController {
         eitem.setDesc(item.getDesc());
         eitem.setUnit(item.getUnit());
         eitem.setRate(item.getRate());
-        return Response.ok(eitem).status(204).build();
+        return eitem;
     }
 
    // @RolesAllowed("wb-manager")

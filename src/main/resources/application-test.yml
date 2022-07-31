@@ -1,5 +1,15 @@
 
 quarkus:
+#  oidc:
+#    auth-server-url: ${keycloak.url}/realms/quarkus/
+#    client-id: quarkus-service-app
+#    credentials: secret
+#    application-type: service
+
+#  keycloak:
+#    devservices:
+#      realm-path: quarkus-realm.json
+
   datasource:
     db-kind: h2
     username: sa
